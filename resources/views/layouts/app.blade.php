@@ -48,6 +48,36 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ url('/') }}">Inicio</a>
+
+                        @auth
+                        <!-- Mostrar solo si está autenticado -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cursos.index') }}">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cursos.crear') }}">Crear Curso</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                                Cerrar Sesión
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+
+                    @else
+                        <!-- Mostrar solo si no está autenticado -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
+                        </li>
+                    @endauth
+
+
+
+
                     </li>
                     {{--  <li class="nav-item">
                         <a class="nav-link" href="#">Servicios</a>
