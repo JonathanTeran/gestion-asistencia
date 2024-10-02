@@ -1,0 +1,29 @@
+/* Hero Section */
+.hero-section {
+    background-image: url('https://d1.awsstatic.com/Developer%20Marketing%20Site%20Assets/hero/hero-developer-background.7749b0f4e2baba2a32f0b3dba6c091aa6bb6e2e5.jpg'); /* Imagen de fondo simulada */
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+}
+
+/* Contenido en la hero-section */
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+}
+
+/* Enlaces de navegación */
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Pie de página */
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}

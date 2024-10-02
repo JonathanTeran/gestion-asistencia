@@ -1,0 +1,170 @@
+/* Estilos generales */
+
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    flex: 1;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Cambiar el color de todos los botones principales
+.btn-primary {
+    background-color: #FB9902 !important;
+    border-color: #FB9902 !important;
+}
+
+.btn-primary:hover {
+    background-color: #e88a01 !important;
+    border-color: #e88a01 !important;
+}
+*/
+
+/* Estilos para la sección héroe */
+.hero-section {
+
+    background-image: url('images/fondo.jpg'); /* Cambia esto con la URL de tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(254, 254, 254);
+
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    /* color: black; */
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-section .btn {
+    padding: 15px 30px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+
+.hero-section .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el lector de QR */
+#qr-reader {
+    margin-top: 20px;
+    border: 3px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para mostrar el resultado del QR */
+#qr-reader-results {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Estilos para el pie de página */
+footer {
+    background-color: #343a40;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Estilos de botones */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Estilo de responsividad */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 50vh; /* Reducir la altura en pantallas medianas */
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+
+    .hero-section .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        height: 40vh; /* Reducir la altura en pantallas más pequeñas */
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .hero-section .btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    /* Asegurar que el lector de QR se ajuste al tamaño de pantalla */
+    #qr-reader {
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+    }
+}
