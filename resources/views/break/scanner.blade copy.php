@@ -31,8 +31,6 @@
 
 <!-- Incluye el script del lector de QR -->
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<!-- Incluye SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Script para inicializar y manejar el escáner -->
 <script>
@@ -41,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let breakHtml5QrCode;
     let breakScannerRunning = false;
     const csrfToken = '{{ csrf_token() }}'; // Obtener el token CSRF
-    let lastScannedCode = null;
-    let scanCooldown = false;
 
     // Inicializar el escáner cuando se abra el modal
     breakQrModal.addEventListener('shown.bs.modal', function () {
@@ -69,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
             breakHtml5QrCode.stop().then(() => {
                 breakHtml5QrCode.clear(); // Limpiar el canvas del escáner
                 breakScannerRunning = false;
-                lastScannedCode = null;
             }).catch((err) => {
                 console.error("No se pudo detener el escáner", err);
             });
@@ -77,13 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function breakOnScanSuccess(decodedText, decodedResult) {
-        // Evitar procesar el mismo código múltiples veces en rápida sucesión
-        if (scanCooldown || decodedText === lastScannedCode) {
-            return;
-        }
-        lastScannedCode = decodedText;
-        scanCooldown = true;
-
         // Aquí 'decodedText' es la URL completa obtenida del QR
         console.log(`Texto decodificado: ${decodedText}`);
 
@@ -93,8 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             url = new URL(decodedText);
         } catch (e) {
             console.error('El texto decodificado no es una URL válida.');
-            Swal.fire('Error', 'El código QR escaneado no es válido.', 'error');
-            scanCooldown = false;
+            alert('El código QR escaneado no es válido.');
             return;
         }
 
@@ -115,39 +102,31 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Asistencia confirmada, puede servirse.',
-                        text: `${data.message}\nNombre: ${data.nombre}`,
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
+                    alert(data.message);
+                    // Opcional: Actualizar la interfaz o cerrar el modal
                 } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Atención',
-                        text: `${data.message}\nNombre: ${data.nombre || ''}`,
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
+                    alert(data.message);
                 }
-                // Permitir escanear nuevamente después de un breve período
-                setTimeout(() => {
-                    scanCooldown = false;
-                    lastScannedCode = null;
-                }, 3000);
             })
             .catch((error) => {
                 console.error('Error:', error);
-                Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
-                scanCooldown = false;
-                lastScannedCode = null;
+                alert('Ocurrió un error al procesar la solicitud.');
             });
         } else {
             console.log('El parámetro ID no está presente en la URL.');
-            Swal.fire('Error', 'El código QR escaneado no contiene un ID válido.', 'error');
-            scanCooldown = false;
-            lastScannedCode = null;
+            alert('El código QR escaneado no contiene un ID válido.');
+        }
+
+        // Detener el escáner
+        if (breakHtml5QrCode && breakScannerRunning) {
+            breakHtml5QrCode.stop().then(() => {
+                console.log('Escaneo detenido.');
+                breakScannerRunning = false;
+                // Opcional: Cerrar el modal después de procesar
+                // $('#breakQrModal').modal('hide');
+            }).catch((err) => {
+                console.error("Error al detener el escaneo", err);
+            });
         }
     }
 

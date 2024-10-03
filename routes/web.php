@@ -13,6 +13,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/validar-break/{userId}', [BreakController::class, 'validarAsistenciaBreak'])->name('break.validar');
 
     Route::get('/', [BreakController::class, 'validarAsistenciaBreak'])->name('validar.asistencia.break');
+    Route::post('/validar-asistencia-break', [BreakController::class, 'validarAsistenciaBreak'])->name('validar.asistencia.break');
 
 
 });
