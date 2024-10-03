@@ -13,15 +13,25 @@
 
             <!-- Social Media Icons -->
             <div class="footer-social-icons">
-                <a href="#" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/ecuadoraws?igsh=MXUwYzdiMW5xcHBhMQ==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/awsecuador/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.facebook.com/ecuadoraws/" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
             </div>
 
             <!-- Copyright -->
-            <p class="footer-copyright">
+            {{--  <p class="footer-copyright">
                 Copyright © 2024, AWS User Group Ecuador. All Rights Reserved.
-            </p>
+            </p>  --}}
+
+
+                <div class="container text-center">
+                    <p class="mb-1">Desarrollado por <a href="https://www.linkedin.com/in/jonathan-teran3/" class="text-white text-decoration-none">Jonathan Terán</a></p>
+                    <p class="mb-0">&copy; 2024, <a href="https://communityday.awsugecuador.com/" class="text-white text-decoration-none">AWS User Group Ecuador</a>. Todos los derechos reservados.</p>
+                </div>
+
+
+
+
         </div>
     </div>
 </footer>

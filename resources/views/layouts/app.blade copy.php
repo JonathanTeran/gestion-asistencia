@@ -50,21 +50,15 @@
 
                         @auth
                         <!-- Mostrar solo si está autenticado -->
-
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('general-scanner') ? 'active' : '' }}" href="{{ url('general-scanner') }}">Validar General</a>
+                            <a class="nav-link" href="{{ url('break-scanner') }}">Validar Break</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('break-scanner') ? 'active' : '' }}" href="{{ url('break-scanner') }}">Validar Break</a>
+                            <a class="nav-link" href="{{ route('cursos.index') }}">Cursos</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('cursos') ? 'active' : '' }}" href="{{ route('cursos.index') }}">Cursos</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('cursos/crear') ? 'active' : '' }}" href="{{ route('cursos.crear') }}">Crear Curso</a>
+                            <a class="nav-link" href="{{ route('cursos.crear') }}">Crear Curso</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
@@ -105,7 +99,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="qrModalLabel">Escanea el Código QR</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
                     <div id="qr-reader" style="width: 100%;"></div> <!-- Aquí se mostrará el lector de QR -->
@@ -127,83 +121,49 @@
     @include('partials.footer')
 
     <!-- Cargar librería html5-qrcode desde una CDN válida -->
-    {{--  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>  --}}
-    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@latest/minified/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <!-- Cargar Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Código JavaScript para manejar el escaneo del código QR -->
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            // Variables globales
-            const qrModal = document.getElementById('qrModal');
-            let html5QrCode;
-
-            // Crear un objeto Audio para el sonido
-            const beepSound = new Audio('{{ asset('sounds/beep.mp3') }}');
-            beepSound.preload = 'auto';
-
             // Cuando se abre el modal, iniciar el lector de QR
+            const qrModal = document.getElementById('qrModal');
             qrModal.addEventListener('shown.bs.modal', function () {
                 startQrCodeScanner();
             });
 
-            // Cuando se cierra el modal, detener el lector de QR
-            qrModal.addEventListener('hidden.bs.modal', function () {
-                stopQrCodeScanner();
-            });
-
             // Función para iniciar el escáner de código QR
             function startQrCodeScanner() {
-                if (!html5QrCode) {
-                    html5QrCode = new Html5Qrcode("qr-reader");
+                const html5QrCode = new Html5Qrcode("qr-reader");
+
+                function onScanSuccess(decodedText, decodedResult) {
+                    html5QrCode.stop().then(() => {
+                        document.getElementById("qr-reader-results").innerHTML = `Código QR Escaneado: ${decodedText}`;
+                        window.location.href = decodedText; // Redirigir a la URL obtenida del código QR
+                    }).catch((err) => {
+                        console.error("No se pudo detener el escaneo", err);
+                    });
+                }
+
+                function onScanFailure(error) {
+                    console.warn(`Error de escaneo: ${error}`);
                 }
 
                 html5QrCode.start(
                     { facingMode: "environment" }, // Usa la cámara trasera
                     {
-                        fps: 10,
-                        qrbox: 250
+                        fps: 10,    // Escanea 10 veces por segundo
+                        qrbox: 250  // Área de escaneo de 250x250
                     },
                     onScanSuccess,
                     onScanFailure
                 ).catch((err) => {
                     console.error("No se pudo iniciar la cámara", err);
-                    Swal.fire('Error', 'No se pudo acceder a la cámara.', 'error');
                 });
-            }
-
-            // Función para detener el escáner de código QR
-            function stopQrCodeScanner() {
-                if (html5QrCode) {
-                    html5QrCode.stop().then(() => {
-                        html5QrCode.clear();
-                        console.log("Cámara detenida y limpiada.");
-                    }).catch((err) => {
-                        console.error("No se pudo detener el escaneo", err);
-                    });
-                }
-            }
-
-            function onScanSuccess(decodedText, decodedResult) {
-                // Reproducir el sonido
-                beepSound.play();
-
-                // Detener el escáner y redirigir
-                html5QrCode.stop().then(() => {
-                    html5QrCode.clear();
-                    document.getElementById("qr-reader-results").innerHTML = `Código QR Escaneado: ${decodedText}`;
-                    window.location.href = decodedText;
-                }).catch((err) => {
-                    console.error("No se pudo detener el escaneo", err);
-                });
-            }
-
-            function onScanFailure(error) {
-                console.warn(`Error de escaneo: ${error}`);
             }
         });
     </script>
-
 </body>
 </html>
