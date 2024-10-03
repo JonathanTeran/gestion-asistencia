@@ -4,6 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\RegistroController;
 
+use App\Http\Controllers\BreakController;
+use App\Http\Controllers\AsistenciaController;
+
+// Ruta para escanear y validar asistencia del break (protegida por autenticación)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/break-scanner', [BreakController::class, 'showScanner'])->name('break.scanner');
+    Route::post('/validar-break/{userId}', [BreakController::class, 'validarAsistenciaBreak'])->name('break.validar');
+
+});
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index');
     // Rutas para crear cursos

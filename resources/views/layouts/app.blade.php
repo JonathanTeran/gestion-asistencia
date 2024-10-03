@@ -51,6 +51,14 @@
 
                         @auth
                         <!-- Mostrar solo si está autenticado -->
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('break-scanner') }}">Validar Break</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cursos.index') }}">Cursos</a>
                         </li>
