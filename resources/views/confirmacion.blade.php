@@ -16,7 +16,7 @@
             <h2 class="display-4 font-weight-bold mb-4" style="color: #28a745;">¡Asistencia Confirmada!</h2>
             <p class="lead">
 
-                {{ session('nombre') ? 'Hola ' . trim(session('nombre')).', ' : '' }}Tu asistencia al curso ha sido confirmada.</p>
+                {{ session('nombre') ? 'Hola ' . trim(session('nombre')).', ' : '' }}Tu asistencia a la charla ha sido confirmada.</p>
 
             <!-- Botón de regreso -->
             <a href="/" class="btn btn-primary btn-lg mt-4 px-5">Volver al Inicio</a>

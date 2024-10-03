@@ -48,7 +48,7 @@ class RegistroController extends Controller
             // Hacer la solicitud inicial sin reintentos para verificar si el usuario existe
             $response = Http::timeout(10) // Aumentar el tiempo límite a 10 segundos
                             ->post($url, [
-                                'action' => 'consult',
+                                //'action' => 'consult',
                                 'email' => $request->email,
                                 'eventId' => $eventId,
                             ]);
