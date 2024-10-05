@@ -1,11 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-
-//use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
-//use Illuminate\Support\Facades\Response; // Asegúrate de importar Response
-
 use App\Models\Curso;
 use Illuminate\Http\Request;
 use Endroid\QrCode\QrCode;
@@ -23,7 +18,7 @@ class CursoController extends Controller
 
     public function index()
     {
-        $cursos = Curso::all(); // Obtener todos los cursos de la base de datos
+        $cursos = Curso::orderBy('hora_inicio', 'asc')->get(); // Obtener todos los cursos de la base de datos
         return view('cursos.index', compact('cursos')); // Retornar la vista con los cursos
     }
 
@@ -45,44 +40,6 @@ class CursoController extends Controller
 
         return redirect()->route('cursos.index')->with('success', 'Curso creado con éxito.');
     }
-
-    // Método para descargar el código QR en formato PNG usando GD (sin Imagick)
-    // public function descargarQr_1($id)
-    // {
-    //     $curso = Curso::findOrFail($id);
-
-    //     // Generar el código QR en formato PNG sin usar Imagick
-    //     $qrCode = QrCode::format('svg') // Forzamos a usar el formato PNG (GD)
-    //                     ->size(250)
-    //                     ->errorCorrection('H') // Nivel de corrección de errores
-    //                     ->generate(route('registro', ['curso_id' => $curso->id]));
-
-    //     // Enviar el archivo como respuesta para descargar
-    //     return Response::make($qrCode, 200, [
-    //         'Content-Type' => 'image/png',
-    //         'Content-Disposition' => 'attachment; filename="curso-'.$curso->id.'-qr.png"',
-    //     ]);
-    // }
-
-    // public function descargarQr($id)
-    // {
-    //     $curso = Curso::findOrFail($id);
-
-    //     // Crear un nuevo código QR usando endroid/qr-code
-    //     $qrCode = new QrCode(route('registro', ['curso_id' => $curso->id]));
-    //     $qrCode->setSize(250);
-
-    //     // Usar el PngWriter para generar el código QR en formato PNG
-    //     $writer = new PngWriter();
-    //     $pngData = $writer->write($qrCode)->getString(); // Generar el código QR en formato PNG como cadena
-
-    //     // Retornar la respuesta con el archivo PNG para descarga
-    //     return new Response($pngData, 200, [
-    //         'Content-Type' => 'image/png',
-    //         'Content-Disposition' => 'attachment; filename="curso-'.$curso->id.'-qr.png"',
-    //     ]);
-    // }
-
     public function descargarQr($id)
     {
         $curso = Curso::findOrFail($id);
@@ -111,7 +68,4 @@ class CursoController extends Controller
             'Content-Disposition' => 'attachment; filename="curso-'.$curso->id.'-qr.png"',
         ]);
     }
-
-
-
 }
